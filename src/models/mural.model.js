@@ -23,6 +23,11 @@ const muralSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    codigoAcceso: {
+      type: String,
+      unique: true,
+      default: () => Math.random().toString(36).substring(2, 6).toUpperCase()
+    },
     participantes: [
       {
         type: Schema.Types.ObjectId,

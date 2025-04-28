@@ -63,3 +63,38 @@ export const getMural = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const unirseAlMural = async (req, res) => {
+  try {
+    const { codigo } = req.body;
+    const mural = await Mural.findOne({ codigoAcceso: codigo });
+
+    if (!mural) {
+      return res.status(404).json({ message: "Código inválido" });
+    }
+
+    // Verificar si el usuario ya es participante
+    if (mural.participantes.includes(req.user.id)) {
+      return res.status(400).json({ message: "Ya eres participante de este mural" });
+    }
+
+    // Agregar usuario a participantes
+    mural.participantes.push(req.user.id);
+    await mural.save();
+
+    res.json({ message: "Te has unido al mural exitosamente" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getMuralesParticipante = async (req, res) => {
+  try {
+    const murales = await Mural.find({
+      participantes: req.user.id
+    }).populate("user");
+    res.json(murales);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
