@@ -22,16 +22,18 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
-app.use(authRoutes);
-app.use(muralRoutes);
-app.use(contenidoRoutes);
+// Montar rutas con prefijo /api
+app.use('/api/auth', authRoutes);
+app.use('/api/murales', muralRoutes);
+app.use('/api/contenidos', contenidoRoutes);
 
+// Solo usar el manejo de frontend en producción
 if (process.env.NODE_ENV === "production") {
   const path = await import("path");
   app.use(express.static("client/dist"));
 
+  // Mover esta ruta al final para que no interfiera con las APIs
   app.get("*", (req, res) => {
-    console.log(path.resolve("client", "dist", "index.html") );
     res.sendFile(path.resolve("client", "dist", "index.html"));
   });
 }
