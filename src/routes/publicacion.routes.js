@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createPublicacion, getPublicaciones } from "../controllers/publicacion.controller.js";
-import { authRequired } from "../middlewares/validatetoken.js";
+import { authRequired } from "../middlewares/validateToken.js";
 import fileUpload from "express-fileupload";
 
 const router = Router();

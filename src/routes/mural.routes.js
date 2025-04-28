@@ -8,7 +8,7 @@ import {
   unirseAlMural,
   getMuralesParticipante
 } from "../controllers/mural.controller.js";
-import { authRequired } from "../middlewares/validatetoken.js";
+import { authRequired } from "../middlewares/validateToken.js";
 const router = Router();
 
 router.get("/verMisMurales", authRequired, getMurales);

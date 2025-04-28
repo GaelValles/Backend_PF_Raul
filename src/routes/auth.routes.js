@@ -8,6 +8,7 @@ import {
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
 import { authRequired } from "../middlewares/validateToken.js";
+
 const router = Router();
 
 router.post("/registrar", registrar);
