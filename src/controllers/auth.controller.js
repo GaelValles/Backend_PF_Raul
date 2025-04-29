@@ -73,7 +73,7 @@ export const login = async (req, res) => {
 
     res.json({
       id: userFound._id,
-      username: userFound.username,
+      nombreUsuario: userFound.nombreUsuario,
       correo: userFound.correo,
     });
   } catch (error) {
@@ -107,7 +107,7 @@ export const verifyToken = async (req, res) => {
 
     return res.json({
       id: userFound._id,
-      username: userFound.username,
+      nombreUsuario: userFound.nombreUsuario,
       correo: userFound.correo,
     });
   });
