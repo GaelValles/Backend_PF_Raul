@@ -12,6 +12,36 @@ export const getPublicaciones = async (req, res) => {
       return res.status(500).json({ message: error.message });
     }
   };
+
+export const getPublicacionesMural = async (req, res) => {
+    try {
+        const muralId = req.params.muralId;
+
+        // Verificar si el mural existe
+        const mural = await Mural.findById(muralId);
+        if (!mural) {
+            return res.status(404).json({ message: "Mural no encontrado" });
+        }
+
+        // Verificar si el usuario tiene acceso al mural
+        const tieneAcceso = mural.user.equals(req.user.id) || 
+                           mural.participantes.includes(req.user.id);
+        
+        if (!tieneAcceso) {
+            return res.status(403).json({ message: "No tienes acceso a este mural" });
+        }
+
+        // Obtener las publicaciones del mural
+        const publicaciones = await Contenido.find({ muralId })
+            .populate('user', 'username email') // Ajusta los campos según tu modelo de Usuario
+            .sort({ fechaSubida: -1 }); // Ordenar por fecha, más recientes primero
+
+        res.json(publicaciones);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+
 export const createPublicacion = async (req, res) => {
     try {
         const { texto } = req.body;

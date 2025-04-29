@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createPublicacion, getPublicaciones } from "../controllers/publicacion.controller.js";
+import { 
+    createPublicacion, 
+    getPublicaciones, 
+    getPublicacionesMural 
+} from "../controllers/publicacion.controller.js";
 import { authRequired } from "../middlewares/validateToken.js";
 import fileUpload from "express-fileupload";
 
@@ -15,5 +19,6 @@ router.post("/subirPublicacion/:muralId",
     }), 
     createPublicacion
 );
+router.get("/verPublicacionesMural/:muralId", authRequired, getPublicacionesMural);
 
 export default router;

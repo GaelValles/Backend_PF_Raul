@@ -3,7 +3,7 @@ import Mural from "../models/mural.model.js";
 
 export const getMurales = async (req, res) => {
   try {
-    const murales = await Mural.find({ user: req.user.id }).populate("creadoPor");
+    const murales = await Mural.find({ user: req.user.id }).populate("user");
     res.json(murales);
   } catch (error) {
     return res.status(500).json({ message: error.message });
